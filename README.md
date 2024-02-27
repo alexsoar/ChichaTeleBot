@@ -1,4 +1,4 @@
-# telebot
+# CHICHA telebot
 Chicha telegram bot
 
 1. **Сборка Docker-образа:**
