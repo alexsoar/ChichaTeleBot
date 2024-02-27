@@ -1,1 +1,1 @@
-@ChichaTeleBot - самый лучший бот! )
+@ChichaTeleBot
