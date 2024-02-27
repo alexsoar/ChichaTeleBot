@@ -93,7 +93,7 @@ func main() {
 		switch {
 		case update.Message.Voice != nil:
 			wg.Add(1)
-			go handleVoiceMessage(bot, update.Message, &wg, Model string)
+			go handleVoiceMessage(bot, update.Message, &wg, Model)
 		default:
 			// Handle other message types or commands
 		}
