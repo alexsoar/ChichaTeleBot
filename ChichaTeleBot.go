@@ -55,7 +55,7 @@ func main() {
 		Model = "small"
 	} else if Model == "medium" ||  Model == "Medium"  ||  Model == "MEDIUM" {
 		Model = "medium"
-	} else if model == "large" ||  Model == "large"  ||  Model == "large" {
+	} else if Model == "large" ||  Model == "large"  ||  Model == "large" {
 		Model = "large"
 	} else {
 		Model = "medium"
@@ -93,7 +93,7 @@ func main() {
 		switch {
 		case update.Message.Voice != nil:
 			wg.Add(1)
-			go handleVoiceMessage(bot, update.Message, &wg)
+			go handleVoiceMessage(bot, update.Message, &wg, Model string)
 		default:
 			// Handle other message types or commands
 		}
@@ -102,7 +102,7 @@ func main() {
 	wg.Wait()
 }
 
-func handleVoiceMessage(bot *tgbotapi.BotAPI, message *tgbotapi.Message, wg *sync.WaitGroup) {
+func handleVoiceMessage(bot *tgbotapi.BotAPI, message *tgbotapi.Message, wg *sync.WaitGroup, Model string) {
 	defer wg.Done()
 
 	// Отправляем typing action
@@ -122,7 +122,7 @@ func handleVoiceMessage(bot *tgbotapi.BotAPI, message *tgbotapi.Message, wg *syn
 		return
 	}
 
-	transcribedVoiceMessage, err := transcribeWithWhisper(voiceFilePath)
+	transcribedVoiceMessage, err := transcribeWithWhisper(voiceFilePath, Model)
 	if err != nil {
 		log.Printf("Error transcribing voice file with whisper: %v", err)
 		return
@@ -143,7 +143,7 @@ func changeFileExtension(voiceFilePath, newExtension string) string {
 	return filepath.Join(filepath.Dir(voiceFilePath), fileNameWithoutExt+newExtension)
 }
 
-func transcribeWithWhisper(audioFilePath string) (string, error) {
+func transcribeWithWhisper(audioFilePath string, Model string) (string, error) {
 	// Изменяем расширение файла на .txt
 	textFilePath := changeFileExtension(audioFilePath, ".txt")
 
