@@ -10,7 +10,7 @@ Install ChichaTeleBot effortlessly using Docker with the following command. Repl
 
 ```bash
 
-docker run -d --restart unless-stopped  -e DEBUG="false" -e MODEL=medium -e TELEGRAM_BOT_TOKEN="your_telegram_bot_token" --gpus all --name your_telegram_bot_name matveynator/chichatelebot:latest
+docker run -d --restart unless-stopped  -e DEBUG="false" -e MODEL="medium" -e TELEGRAM_BOT_TOKEN="your_telegram_bot_token" --gpus all --name your_telegram_bot_name matveynator/chichatelebot:latest
 
 ```
 
