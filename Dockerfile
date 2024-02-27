@@ -19,6 +19,9 @@ RUN /venv/bin/python3 -m pip install --upgrade pip pipx && \
 # Установка Whisper через pipx
 RUN /venv/bin/pipx install git+https://github.com/openai/whisper.git
 
+# Добавление /root/.local/bin в переменную среды PATH
+ENV PATH="/root/.local/bin:$PATH"
+
 # Клонирование и компиляция ChichaTeleBot.go
 WORKDIR /app
 RUN git clone https://github.com/matveynator/ChichaTeleBot && \
