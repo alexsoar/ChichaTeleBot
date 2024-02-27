@@ -6,6 +6,7 @@ Chicha telegram bot
 Replace `your_telegram_bot_token` with your actual Telegram bot token. After that, use the following command to launch the container:
 
 ```bash
+cd /usr/src
 git clone https://github.com/matveynator/ChichaTeleBot.git
 cd ChichaTeleBot
 docker build -t chichatelebot .
