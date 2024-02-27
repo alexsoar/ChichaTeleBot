@@ -34,7 +34,15 @@ func main() {
 		log.Fatal(err)
 	}
 
-	bot.Debug = false
+	debug := os.Getenv("DEBUG")
+
+	if debug == "" {
+		bot.Debug = false
+	} else if debug == "false" ||  debug == "False"  ||  debug == "FALSE" {
+		bot.Debug = false
+	} else if debug == "true" ||  debug == "True"  ||  debug == "TRUE" {
+		bot.Debug = true
+	} 
 
 	log.Printf("Authorized on account %s", bot.Self.UserName)
 
