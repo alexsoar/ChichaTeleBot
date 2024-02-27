@@ -2,7 +2,7 @@
 
 ChichaTeleBot is a powerful voice bot for Telegram designed to be your helpful companion. It seamlessly converts spoken words to text, performs language translations based on your speech, and prioritizes the protection of your privacy. The bot is aptly named after Chicha, a delightful companion pincher dog.
 
-🟢 **Live Demo:** [https://t.me/ChichaTeleBot](https://t.me/ChichaTeleBot)
+🟢 **Live Telegram Demo:** [https://t.me/ChichaTeleBot](@ChichaTeleBot)
 
 ## Quick Installation via Docker
 
