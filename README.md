@@ -1,20 +1,20 @@
-# Chicha telebot
+# ChichaTeleBot
 Chicha telegram bot
 
-1. **Сборка Docker-образа:**
+1. **Docker Image Build:**
 
-Откройте терминал в директории, где находится `Dockerfile`, и выполните следующую команду:
-
-```bash
-docker build -t telebot .
-```
-
-2. **Запуск контейнера:**
-
-Замените your_telegram_bot_token на фактический токен вашего телеграм-бота. После этого, используйте следующую команду для запуска контейнера:
+Open the terminal in the directory where the `Dockerfile` is located and execute the following command:
 
 ```bash
-docker run -d --restart unless-stopped -e TELEGRAM_BOT_TOKEN=your_telegram_bot_token telebot
+docker build -t ChichaTeleBot .
 ```
 
-Теперь у вас должен быть Docker-контейнер с установленным Whisper и работающим в фоновом режиме телеграм ботом  CHICHA telebot который будет транскрипировать любые полученные им голосовые сообщения в текстовые с использованием установленной на вашем сервере видеокарты.
+2. **Container Launch:**
+
+Replace `your_telegram_bot_token` with your actual Telegram bot token. After that, use the following command to launch the container:
+
+```bash
+docker run -d --restart unless-stopped -e TELEGRAM_BOT_TOKEN=your_telegram_bot_token ChichaTeleBot
+```
+
+Now you should have a Docker container with Whisper installed, running in the background as the CHICHA telebot. It will transcribe any received voice messages into text using the graphics card installed on your server.
