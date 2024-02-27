@@ -52,7 +52,7 @@ RUN git clone https://github.com/matveynator/ChichaTeleBot && \
     go build -o /usr/local/bin/ChichaTeleBot ChichaTeleBot.go
 
 # Run Whisper to generate a summary for the provided audio file
-RUN /root/.local/bin/whisper --model medium  /app/ChichaTeleBot/test.ogg
+RUN whisper --model medium  /app/ChichaTeleBot/test.ogg
 
 # Add execution permissions
 RUN chmod +x /usr/local/bin/ChichaTeleBot
