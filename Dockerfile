@@ -2,7 +2,7 @@
 FROM debian:12
 
 # Установка необходимых пакетов
-RUN apt-get update && apt-get install -y python3-pip python3-venv git golang-go
+RUN apt-get update && apt-get install -y python3-pip python3-venv git golang-go ffmpeg
 
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
