@@ -1,9 +1,7 @@
-Certainly! Here's an updated version of your instructions:
-
 # ChichaTeleBot
 Chicha telegram bot
 
-1. **Build and install:**
+1. **Build and Install:**
 
 ```bash
 cd /usr/src
@@ -20,8 +18,8 @@ Replace `your_telegram_bot_token` with your actual Telegram bot token. After tha
 docker run -d --restart unless-stopped -e TELEGRAM_BOT_TOKEN=your_telegram_bot_token -e DEBUG="false" --name ChichaTeleBot chichatelebot
 ```
 
-**Important Notes:**
-- It is crucial not to store user messages to ensure privacy and compliance with data protection regulations.
-- Set the `DEBUG` environment variable to "false" to disable debugging and prevent unnecessary information exposure.
+**Important Privacy and Security Measures:**
+- 🚨 **CRITICAL:** Ensure that you DO NOT store user messages. It is of utmost importance to prioritize user privacy and comply with data protection regulations.
+- 🔐 Set the `DEBUG` environment variable to "false" to disable debugging. This helps prevent unnecessary information exposure, further safeguarding user data.
 
-Now you should have a Docker container with Whisper installed, running in the background as the CHICHA telebot. It will transcribe any received voice messages into text using the graphics card installed on your server.
+Now, with these privacy and security measures in place, you have a Docker container with Whisper installed. The CHICHA telebot will transcribe voice messages into text using the graphics card installed on your server.
