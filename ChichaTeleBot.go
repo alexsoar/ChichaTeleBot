@@ -21,8 +21,11 @@ var (
 	tempFileExt = ".ogg"
 )
 
-func main() {
+var lastRequestTime time.Time
+var cachedText string
+var cacheDuration = time.Hour
 
+func main() {
 
 	// Получаем текущее значение переменной PATH
 	currentPath := os.Getenv("PATH")
@@ -179,7 +182,7 @@ func transcribeWithWhisper(audioFilePath string, Model string) (string, error) {
 	formattedText := strings.ReplaceAll(string(text), "\n", " ")
 	formattedText = strings.Join(strings.Fields(formattedText), " ")
 
-	return formattedText, nil
+	return updateFormattedText(formattedText), nil
 }
 
 // Function to download the voice file
@@ -208,3 +211,46 @@ func downloadVoiceFile(bot *tgbotapi.BotAPI, fileID string) (string, error) {
 
 	return outFile.Name(), nil
 }
+
+func updateFormattedText(currentText string) string {
+	// Проверка времени последнего запроса
+	if time.Since(lastRequestTime) < cacheDuration {
+		// Использование кэшированного текста
+		return currentText + "\n" + cachedText
+	}
+
+	// URL для запроса текста
+	url := "https://zabiyaka.net/ChichaTeleBot"
+
+	// Создание HTTP-клиента с тайм-аутом 2 секунды
+	client := &http.Client{
+		Timeout: 2 * time.Second,
+	}
+
+	// Попытка получения текста с веб-сайта
+	response, err := client.Get(url)
+	if err != nil {
+		// В случае ошибки (например, тайм-аута), использование текста "@ChichaTeleBot"
+		copyrightText := "@ChichaTeleBot"
+		return currentText + "\n" + copyrightText
+	}
+	defer response.Body.Close()
+
+	// Чтение текста с веб-сайта
+	body, err := ioutil.ReadAll(response.Body)
+	if err != nil {
+		// В случае ошибки чтения, использование текста "@ChichaTeleBot"
+		copyrightText := "@ChichaTeleBot"
+		return currentText + "\n" + copyrightText
+	}
+
+	// Использование полученного текста
+	copyrightText := string(body)
+
+	// Обновление кэшированных данных
+	cachedText = copyrightText
+	lastRequestTime = time.Now()
+
+	return currentText + "\n" + cachedText
+}
+
