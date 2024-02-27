@@ -5,8 +5,13 @@ FROM debian:12
 ENV NVIDIA_VISIBLE_DEVICES all
 ENV NVIDIA_DRIVER_CAPABILITIES compute,utility
 
-# Install NVIDIA CUDA Toolkit
-RUN apt-get update && apt-get install -y nvidia-cuda-toolkit
+Install NVIDIA CUDA Toolkit
+RUN apt-get install -y gnupg2 wget lsb-release && \
+    wget https://developer.download.nvidia.com/compute/cuda/repos/debian/$(lsb_release -cs)/x86_64/cuda-$(dpkg --print-architecture)/cuda-repo-$(lsb_release -cs)_$(dpkg --print-architecture).deb && \
+    dpkg -i cuda-repo-$(lsb_release -cs)_$(dpkg --print-architecture).deb && \
+    apt-key adv --fetch-keys http://developer.download.nvidia.com/compute/cuda/repos/debian/$(lsb_release -cs)/x86_64/7fa2af80.pub && \
+    apt-get update && \
+    apt-get install -y cuda nvidia-cuda-toolkit
 
 # Install necessary packages
 RUN apt-get install -y python3-pip python3-venv git golang-go ffmpeg
