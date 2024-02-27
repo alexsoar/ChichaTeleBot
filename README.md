@@ -8,7 +8,7 @@ Install ChichaTeleBot effortlessly using Docker with the following command. Repl
 
 ```bash
 
-docker run -d --restart unless-stopped  -e DEBUG="false" -e MODEL=medium -e TELEGRAM_BOT_TOKEN="your_telegram_bot_token" -gpus all --name your_telegram_bot_name matveynator/chichatelebot:latest
+docker run -d --restart unless-stopped  -e DEBUG="false" -e MODEL=medium -e TELEGRAM_BOT_TOKEN="your_telegram_bot_token" --gpus all --name your_telegram_bot_name matveynator/chichatelebot:latest
 
 ```
 
@@ -32,7 +32,7 @@ cd /usr/src
 git clone https://github.com/matveynator/ChichaTeleBot.git
 cd ChichaTeleBot
 docker build -t chichatelebot .
-docker run -d --restart unless-stopped -e TELEGRAM_BOT_TOKEN=your_telegram_bot_token -e MODEL=medium -e DEBUG="false" -gpus all --name your_telegram_bot_name chichatelebot
+docker run -d --restart unless-stopped -e TELEGRAM_BOT_TOKEN=your_telegram_bot_token -e MODEL=medium -e DEBUG="false" --gpus all --name your_telegram_bot_name chichatelebot
 ```
 
 Now, you have a fully functional ChichaTeleBot running on your server, providing a seamless voice-to-text experience while ensuring the utmost privacy and security for your users.
