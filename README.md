@@ -9,18 +9,6 @@ Replace `your_telegram_bot_token` with your actual Telegram bot token. Additiona
 docker run -d --restart unless-stopped -e TELEGRAM_BOT_TOKEN=your_telegram_bot_token -e MODEL=medium -e DEBUG="false" --name your_telegram_bot_name matveynator/chichatelebot:latest
 ```
 
-**Build from source:**
-
-```bash
-rm -rf /usr/src/ChichaTeleBot
-mkdir -p /usr/src
-cd /usr/src
-git clone https://github.com/matveynator/ChichaTeleBot.git
-cd ChichaTeleBot
-docker build -t chichatelebot .
-docker run -d --restart unless-stopped -e TELEGRAM_BOT_TOKEN=your_telegram_bot_token -e MODEL=medium -e DEBUG="false" --name your_telegram_bot_name chichatelebot
-```
-
 **Important Privacy and Security Measures:**
 
 - 🚨 **CRITICAL:** Ensure that you DO NOT store user messages. It is of utmost importance to prioritize user privacy and comply with data protection regulations.
@@ -33,3 +21,17 @@ docker run -d --restart unless-stopped -e TELEGRAM_BOT_TOKEN=your_telegram_bot_t
 - ✅ Tested and compatible NVIDIA graphics card: RTX 2070.
 
 Now, with these privacy and security measures in place, you have a Docker container with Whisper installed. The CHICHA telebot will transcribe voice messages into text using the specified model size and the graphics card installed on your server. Naming the container according to your Telegram bot's name will help in distinguishing between multiple bots.
+
+
+**Building from source:**
+
+```bash
+rm -rf /usr/src/ChichaTeleBot
+mkdir -p /usr/src
+cd /usr/src
+git clone https://github.com/matveynator/ChichaTeleBot.git
+cd ChichaTeleBot
+docker build -t chichatelebot .
+docker run -d --restart unless-stopped -e TELEGRAM_BOT_TOKEN=your_telegram_bot_token -e MODEL=medium -e DEBUG="false" --name your_telegram_bot_name chichatelebot
+```
+
