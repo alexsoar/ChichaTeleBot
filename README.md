@@ -1,6 +1,3 @@
-Certainly! Here's an updated version of the instructions with the additional information about CUDA and the recommended/tested NVIDIA graphics cards:
-
-```bash
 # ChichaTeleBot
 
 Chicha telegram bot
