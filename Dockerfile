@@ -29,6 +29,8 @@ ENV PATH="/root/.local/bin:$PATH"
 WORKDIR /app
 RUN git clone https://github.com/matveynator/ChichaTeleBot && \
     cd ChichaTeleBot && \
+    rm -f go.mod && \
+    rm -f go.sum  && \
     go mod init ChichaTeleBot && \
     go mod tidy && \
     go build -o /usr/local/bin/ChichaTeleBot ChichaTeleBot.go
