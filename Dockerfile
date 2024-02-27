@@ -1,8 +1,15 @@
 # Use the official Debian 12 image as the base
 FROM debian:12
 
+# Set the default runtime to NVIDIA
+ENV NVIDIA_VISIBLE_DEVICES all
+ENV NVIDIA_DRIVER_CAPABILITIES compute,utility
+
+# Install NVIDIA CUDA Toolkit
+RUN apt-get update && apt-get install -y nvidia-cuda-toolkit
+
 # Install necessary packages
-RUN apt-get update && apt-get install -y python3-pip python3-venv git golang-go ffmpeg
+RUN apt-get install -y python3-pip python3-venv git golang-go ffmpeg
 
 # Clean up the package manager cache to reduce image size
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
