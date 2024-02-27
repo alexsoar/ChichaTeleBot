@@ -45,11 +45,6 @@ func main() {
 		log.Fatal("TELEGRAM_BOT_TOKEN not found in environment or .env file")
 	}
 
-	bot, err := tgbotapi.NewBotAPI(token)
-	if err != nil {
-		log.Fatal(err)
-	}
-
 	debug := os.Getenv("DEBUG")
 
 	if debug == "" {
@@ -58,7 +53,28 @@ func main() {
 		bot.Debug = false
 	} else if debug == "true" ||  debug == "True"  ||  debug == "TRUE" {
 		bot.Debug = true
-	} 
+	} else {
+		bot.Debug = false
+	}
+
+	model := os.Getenv("MODEL")
+
+	if model == "" {
+		model = medium
+	} else if model == "small" ||  model == "Small"  ||  model == "SMALL" {
+		model = small
+	} else if model == "medium" ||  model == "Medium"  ||  model == "MEDIUM" {
+		model = medium
+	} else if model == "large" ||  model == "large"  ||  model == "large" {
+		model = large
+	} else {
+		model = medium
+	}
+	
+	bot, err := tgbotapi.NewBotAPI(token)
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	log.Printf("Authorized on account %s", bot.Self.UserName)
 
@@ -138,7 +154,7 @@ func transcribeWithWhisper(audioFilePath string) (string, error) {
 	cmd := exec.Command(
 		"whisper",
 		audioFilePath,
-		"--model", "medium",
+		"--model", model,
 		"--task", "transcribe",
 		"--output_format", "txt",
 		"--max_line_width", "0",
