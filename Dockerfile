@@ -28,22 +28,18 @@ RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* ;
 RUN python3 -m venv /venv
 
 # Activate the virtual environment
-ENV PATH="/venv/bin:$PATH"
+ENV PATH="/venv/bin:/root/.local/bin:$PATH"
 
 # Install pipx within the virtual environment
 RUN /venv/bin/python3 -m pip install --upgrade pip pipx && \
     /venv/bin/python3 -m pipx ensurepath
-
-# Add /root/.local/bin to the PATH environment variable
-ENV PATH="/root/.local/bin:$PATH"
 
 RUN /venv/bin/pip install torch -f https://download.pytorch.org/whl/torch_stable.html
 
 # Install Whisper using pipx
 RUN /venv/bin/pip install -U openai-whisper
 
-# Add /root/.local/bin to the PATH environment variable
-ENV PATH="/root/.local/bin:$PATH"
+RUN which whisper
 
 # Clone and compile ChichaTeleBot.go
 WORKDIR /app
