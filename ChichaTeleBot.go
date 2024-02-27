@@ -22,10 +22,7 @@ var (
 )
 
 func main() {
-	err := godotenv.Load()
-	if err != nil {
-		log.Println("Error loading .env file, file may be missing.")
-	}
+	godotenv.Load()
 
 	token := os.Getenv("TELEGRAM_BOT_TOKEN")
 	if token == "" {
