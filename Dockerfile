@@ -2,7 +2,7 @@
 FROM debian:12
 
 # Установка необходимых пакетов
-RUN apt-get update; apt-get -y install apt-utils; apt-get install -y python3-pip git golang-go git
+RUN apt-get update; apt-get install -y python3-pip git golang-go git
 
 # Установка pipx
 RUN python3 -m pip install --upgrade pip pipx
