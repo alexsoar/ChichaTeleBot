@@ -1,3 +1,4 @@
+# Dockerfile of github.com/matveynator/ChichaTeleBot TALK-to-TEXT telegram bot.
 FROM ubuntu:22.04
 
 # Set the default runtime to NVIDIA
