@@ -37,6 +37,8 @@ RUN /venv/bin/python3 -m pip install --upgrade pip pipx && \
 # Add /root/.local/bin to the PATH environment variable
 ENV PATH="/root/.local/bin:$PATH"
 
+RUN /venv/bin/pip install torch -f https://download.pytorch.org/whl/torch_stable.html
+
 # Install Whisper using pipx
 RUN /venv/bin/pipx install git+https://github.com/openai/whisper.git
 
