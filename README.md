@@ -4,11 +4,12 @@ Chicha telegram bot
 1. **Build and Install:**
 
 ```bash
+rm -rf /usr/src/ChichaTeleBot
+mkdir -p /usr/src
 cd /usr/src
 git clone https://github.com/matveynator/ChichaTeleBot.git
 cd ChichaTeleBot
 docker build -t chichatelebot .
-rm -rf /usr/src/ChichaTeleBot
 ```
 
 2. **Run:**
