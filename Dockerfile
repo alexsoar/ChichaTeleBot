@@ -14,10 +14,10 @@ RUN pipx install git+https://github.com/openai/whisper.git
 # Добавление исполняемого файла Whisper в системный путь
 RUN ln -s /root/.local/bin/whisper /usr/local/bin/whisper
 
-# Клонирование и компиляция telebot.go
+# Клонирование и компиляция ChichaTeleBot.go
 WORKDIR /app
-ADD https://raw.githubusercontent.com/matveynator/telebot/main/telebot.go /app/
-RUN go build telebot.go
+ADD https://raw.githubusercontent.com/matveynator/ChichaTeleBot/main/ChichaTeleBot.go /app/
+RUN go build ChichaTeleBot.go
 
 # Запуск telebot как демона
-CMD ["/app/telebot"]
+CMD ["/app/ChichaTeleBot"]
