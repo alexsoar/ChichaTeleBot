@@ -8,8 +8,8 @@ Replace `your_telegram_bot_token` with your actual Telegram bot token. After tha
 ```bash
 git clone https://github.com/matveynator/ChichaTeleBot.git
 cd ChichaTeleBot
-docker build -t ChichaTeleBot .
-docker run -d --restart unless-stopped -e TELEGRAM_BOT_TOKEN=your_telegram_bot_token ChichaTeleBot
+docker build -t chichatelebot .
+docker run -d --restart unless-stopped -e TELEGRAM_BOT_TOKEN=your_telegram_bot_token chichatelebot
 
 ```
 
