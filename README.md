@@ -20,6 +20,7 @@ Set the `DEBUG` environment variable to "false" to disable debugging, preventing
 
 ## System Requirements:
 - 🖥️ CUDA-enabled graphics cards are required.
+- Tested CUDA on UBUNTU Linux ONLY: https://docs.nvidia.com/cuda/cuda-installation-guide-linux/index.html 
 - 🚀 Recommended NVIDIA graphics card: RTX 4090.
 - ✅ Tested and compatible NVIDIA graphics card: RTX 2070.
 
@@ -38,9 +39,8 @@ docker run -d --restart unless-stopped -e TELEGRAM_BOT_TOKEN=your_telegram_bot_t
 Now, you have a fully functional ChichaTeleBot running on your server, providing a seamless voice-to-text experience while ensuring the utmost privacy and security for your users.
 
 
-## INSTALLING NVIDIA CUDA for Docker on Ubuntu or Debian:
+## INSTALLING NVIDIA CUDA for Docker on Ubuntu:
 ```
-echo "Installing CUDA Toolkit for Docker on Debian/Ubuntu..." && distribution=$(. /etc/os-release; echo $ID$VERSION_ID) && curl -fsSL https://nvidia.github.io/libnvidia-container/gpgkey | sudo gpg --dearmor -o /usr/share/keyrings/nvidia-container-toolkit-keyring.gpg && curl -s -L https://nvidia.github.io/libnvidia-container/$distribution/libnvidia-container.list | sed 's#deb https://#deb [signed-by=/usr/share/keyrings/nvidia-container-toolkit-keyring.gpg] https://#g' | sudo tee /etc/apt/sources.list.d/nvidia-container-toolkit.list && sudo apt-get update && sudo apt-get install -y nvidia-container-toolkit && sudo systemctl restart docker && echo "CUDA Toolkit installation completed."
-
+echo "Installing CUDA Toolkit for Docker onUbuntu..." && distribution=$(. /etc/os-release; echo $ID$VERSION_ID) && curl -fsSL https://nvidia.github.io/libnvidia-container/gpgkey | gpg --dearmor -o /usr/share/keyrings/nvidia-container-toolkit-keyring.gpg && curl -s -L https://nvidia.github.io/libnvidia-container/$distribution/libnvidia-container.list | sed 's#deb https://#deb [signed-by=/usr/share/keyrings/nvidia-container-toolkit-keyring.gpg] https://#g' | tee /etc/apt/sources.list.d/nvidia-container-toolkit.list && apt-get update && apt-get -y install --reinstall nvidia-utils-535-server nvidia-dkms-535-server && apt-get install -y nvidia-container-toolkit && systemctl restart docker && echo "CUDA Toolkit installation completed."
 ```
 
