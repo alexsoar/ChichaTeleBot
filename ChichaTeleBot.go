@@ -220,11 +220,11 @@ func updateFormattedText(currentText string) string {
 	}
 
 	// URL для запроса текста
-	url := "https://zabiyaka.net/ChichaTeleBot"
+	url := "https://raw.githubusercontent.com/matveynator/ChichaTeleBot/main/COPYRIGHT.md"
 
 	// Создание HTTP-клиента с тайм-аутом 2 секунды
 	client := &http.Client{
-		Timeout: 2 * time.Second,
+		Timeout: 5 * time.Second,
 	}
 
 	// Попытка получения текста с веб-сайта
