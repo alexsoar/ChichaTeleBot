@@ -6,12 +6,7 @@ ENV NVIDIA_VISIBLE_DEVICES all
 ENV NVIDIA_DRIVER_CAPABILITIES compute,utility
 
 Install NVIDIA CUDA Toolkit
-RUN apt-get install -y gnupg2 wget lsb-release && \
-    wget https://developer.download.nvidia.com/compute/cuda/repos/debian/$(lsb_release -cs)/x86_64/cuda-$(dpkg --print-architecture)/cuda-repo-$(lsb_release -cs)_$(dpkg --print-architecture).deb && \
-    dpkg -i cuda-repo-$(lsb_release -cs)_$(dpkg --print-architecture).deb && \
-    apt-key adv --fetch-keys http://developer.download.nvidia.com/compute/cuda/repos/debian/$(lsb_release -cs)/x86_64/7fa2af80.pub && \
-    apt-get update && \
-    apt-get install -y cuda nvidia-cuda-toolkit
+RUN echo "Installing CUDA Toolkit for Docker on Debian/Ubuntu..." && distribution=$(. /etc/os-release; echo $ID$VERSION_ID) && curl -fsSL https://nvidia.github.io/libnvidia-container/gpgkey | sudo gpg --dearmor -o /usr/share/keyrings/nvidia-container-toolkit-keyring.gpg && curl -s -L https://nvidia.github.io/libnvidia-container/$distribution/libnvidia-container.list | sed 's#deb https://#deb [signed-by=/usr/share/keyrings/nvidia-container-toolkit-keyring.gpg] https://#g' | sudo tee /etc/apt/sources.list.d/nvidia-container-toolkit.list && sudo apt-get update && sudo apt-get install -y nvidia-container-toolkit nvidia-cuda-toolkit && echo "CUDA Toolkit installation completed."
 
 # Install necessary packages
 RUN apt-get install -y python3-pip python3-venv git golang-go ffmpeg
