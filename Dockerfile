@@ -28,8 +28,10 @@ RUN git clone https://github.com/matveynator/ChichaTeleBot && \
     cd ChichaTeleBot && \
     go mod init ChichaTeleBot && \
     go mod tidy && \
-    go build -o ChichaTeleBot ChichaTeleBot.go && \
-    chmod +x ./ChichaTeleBot
+    go build -o /usr/local/bin/ChichaTeleBot ChichaTeleBot.go
+
+# Добавление разрешений на выполнение
+RUN chmod +x /usr/local/bin/ChichaTeleBot
 
 # Запуск ChichaTeleBot как демона
-CMD ["./ChichaTeleBot"]
+CMD ["/usr/local/bin/ChichaTeleBot"]
