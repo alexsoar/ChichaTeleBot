@@ -16,6 +16,9 @@ ENV PATH="/venv/bin:$PATH"
 RUN /venv/bin/python3 -m pip install --upgrade pip pipx && \
     /venv/bin/python3 -m pipx ensurepath
 
+# Добавление /root/.local/bin в переменную среды PATH
+ENV PATH="/root/.local/bin:$PATH"
+
 # Установка Whisper через pipx
 RUN /venv/bin/pipx install git+https://github.com/openai/whisper.git
 
