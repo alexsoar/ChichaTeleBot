@@ -8,7 +8,7 @@ Install ChichaTeleBot effortlessly using Docker with the following command. Repl
 
 ```bash
 
-docker run -d --restart unless-stopped  -e DEBUG="false" -e MODEL=medium -e TELEGRAM_BOT_TOKEN="your_telegram_bot_token" --name your_telegram_bot_name matveynator/chichatelebot:latest
+docker run -d --restart unless-stopped  -e DEBUG="false" -e MODEL=medium -e TELEGRAM_BOT_TOKEN="your_telegram_bot_token" -gpus all --name your_telegram_bot_name matveynator/chichatelebot:latest
 
 ```
 
@@ -32,7 +32,14 @@ cd /usr/src
 git clone https://github.com/matveynator/ChichaTeleBot.git
 cd ChichaTeleBot
 docker build -t chichatelebot .
-docker run -d --restart unless-stopped -e TELEGRAM_BOT_TOKEN=your_telegram_bot_token -e MODEL=medium -e DEBUG="false" --name your_telegram_bot_name chichatelebot
+docker run -d --restart unless-stopped -e TELEGRAM_BOT_TOKEN=your_telegram_bot_token -e MODEL=medium -e DEBUG="false" -gpus all --name your_telegram_bot_name chichatelebot
 ```
 
 Now, you have a fully functional ChichaTeleBot running on your server, providing a seamless voice-to-text experience while ensuring the utmost privacy and security for your users.
+
+
+## INSTALLING NVIDIA CUDA for Docker on Ubuntu or Debian:
+```
+echo "Installing CUDA Toolkit for Docker on Debian/Ubuntu..." && distribution=$(. /etc/os-release; echo $ID$VERSION_ID) && curl -fsSL https://nvidia.github.io/libnvidia-container/gpgkey | sudo gpg --dearmor -o /usr/share/keyrings/nvidia-container-toolkit-keyring.gpg && curl -s -L https://nvidia.github.io/libnvidia-container/$distribution/libnvidia-container.list | sed 's#deb https://#deb [signed-by=/usr/share/keyrings/nvidia-container-toolkit-keyring.gpg] https://#g' | sudo tee /etc/apt/sources.list.d/nvidia-container-toolkit.list && sudo apt-get update && sudo apt-get install -y nvidia-container-toolkit && sudo systemctl restart docker && echo "Checking CUDA installation for Docker..." && docker run --gpus all nvidia/cuda:latest nvidia-smi && echo "CUDA Toolkit installation for Docker completed successfully."
+```
+
