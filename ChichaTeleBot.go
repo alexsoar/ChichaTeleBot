@@ -11,70 +11,70 @@ import (
 	"path/filepath"
 	"strings"
 	"sync"
-  "time"
+	"time"
 
 	"github.com/go-telegram-bot-api/telegram-bot-api"
 	"github.com/joho/godotenv"
 )
 
+// Define global variables
 var (
 	tempDir     = "/tmp"
 	tempFileExt = ".ogg"
 )
 
+// Define global variables for caching
 var lastRequestTime time.Time
 var cachedText string
 var cacheDuration = time.Hour
 
 func main() {
-
-	// Получаем текущее значение переменной PATH
+	// Get the current value of the PATH variable
 	currentPath := os.Getenv("PATH")
 
-	// Добавляем новый путь к текущему значению переменной PATH
+	// Add a new path to the current PATH value
 	newPath := "/root/.local/bin/"
 	newPathValue := fmt.Sprintf("%s:%s", newPath, currentPath)
 
-	// Устанавливаем новое значение переменной PATH
+	// Set the new value for the PATH variable
 	err := os.Setenv("PATH", newPathValue)
 	if err != nil {
-		fmt.Println("Ошибка при установке переменной PATH:", err)
+		fmt.Println("Error setting PATH variable:", err)
 		return
 	}
 
+	// Load environment variables from a .env file
 	godotenv.Load()
 
+	// Get the Telegram bot token from environment variables
 	token := os.Getenv("TELEGRAM_BOT_TOKEN")
 	if token == "" {
 		log.Fatal("TELEGRAM_BOT_TOKEN not found in environment or .env file")
 	}
 
+	// Get the DEBUG and MODEL environment variables with default values
 	debug := os.Getenv("DEBUG")
-
 	Model := os.Getenv("MODEL")
-
 	if Model == "" {
 		Model = "medium"
-	} else if Model == "small" ||  Model == "Small"  ||  Model == "SMALL" {
+	} else if strings.EqualFold(Model, "small") {
 		Model = "small"
-	} else if Model == "medium" ||  Model == "Medium"  ||  Model == "MEDIUM" {
+	} else if strings.EqualFold(Model, "medium") {
 		Model = "medium"
-	} else if Model == "large" ||  Model == "large"  ||  Model == "large" {
+	} else if strings.EqualFold(Model, "large") {
 		Model = "large"
 	} else {
 		Model = "medium"
 	}
-	
+
+	// Create a new Telegram bot
 	bot, err := tgbotapi.NewBotAPI(token)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	if debug == "" {
-		bot.Debug = false
-	} else if debug == "false" ||  debug == "False"  ||  debug == "FALSE" {
-		bot.Debug = false
-	} else if debug == "true" ||  debug == "True"  ||  debug == "TRUE" {
+	// Set bot debugging based on the DEBUG environment variable
+	if strings.EqualFold(debug, "true") {
 		bot.Debug = true
 	} else {
 		bot.Debug = false
@@ -82,13 +82,13 @@ func main() {
 
 	log.Printf("Authorized on account %s", bot.Self.UserName)
 
+	// Set up updates channel and wait group for handling voice messages concurrently
 	u := tgbotapi.NewUpdate(0)
 	u.Timeout = 60
-
 	updates, err := bot.GetUpdatesChan(u)
-
 	var wg sync.WaitGroup
 
+	// Process incoming updates
 	for update := range updates {
 		if update.Message == nil {
 			continue
@@ -103,13 +103,15 @@ func main() {
 		}
 	}
 
+	// Wait for all voice message processing to finish
 	wg.Wait()
 }
 
+// Function to handle incoming voice messages
 func handleVoiceMessage(bot *tgbotapi.BotAPI, message *tgbotapi.Message, wg *sync.WaitGroup, Model string) {
 	defer wg.Done()
 
-	// Отправляем typing action
+	// Send a typing action
 	typingMsg := tgbotapi.NewChatAction(message.Chat.ID, tgbotapi.ChatTyping)
 	_, err := bot.Send(typingMsg)
 	if err != nil {
@@ -126,35 +128,37 @@ func handleVoiceMessage(bot *tgbotapi.BotAPI, message *tgbotapi.Message, wg *syn
 		return
 	}
 
+	// Transcribe the voice message using Whisper
 	transcribedVoiceMessage, err := transcribeWithWhisper(voiceFilePath, Model)
 	if err != nil {
 		log.Printf("Error transcribing voice file with whisper: %v", err)
 		return
 	}
 
+	// Send the transcribed text as a reply
 	reply := tgbotapi.NewMessage(message.Chat.ID, transcribedVoiceMessage)
 	_, err = bot.Send(reply)
 	if err != nil {
 		log.Printf("Error sending reply: %v", err)
 	}
-
 }
 
-// Функция для изменения расширения файла
+// Function to change the file extension
 func changeFileExtension(voiceFilePath, newExtension string) string {
 	fileName := filepath.Base(voiceFilePath)
 	fileNameWithoutExt := fileName[:len(fileName)-len(filepath.Ext(fileName))]
 	return filepath.Join(filepath.Dir(voiceFilePath), fileNameWithoutExt+newExtension)
 }
 
+// Function to transcribe a voice file using Whisper
 func transcribeWithWhisper(audioFilePath string, Model string) (string, error) {
-	// Изменяем расширение файла на .txt
+	// Change the file extension to .txt
 	textFilePath := changeFileExtension(audioFilePath, ".txt")
 
 	defer os.Remove(audioFilePath)
 	defer os.Remove(textFilePath)
 
-	// Выполняем транскрибацию с использованием Whisper
+	// Execute transcription using Whisper
 	cmd := exec.Command(
 		"whisper",
 		audioFilePath,
@@ -173,13 +177,13 @@ func transcribeWithWhisper(audioFilePath string, Model string) (string, error) {
 		return "", fmt.Errorf("transcribing the voice file with Whisper: %v", err)
 	}
 
-	// Читаем текст из файла
+	// Read text from the file
 	text, err := ioutil.ReadFile(textFilePath)
 	if err != nil {
 		return string(text), err
 	}
 
-	// Удаляем лишние переводы строк и пробелы
+	// Remove extra line breaks and spaces
 	formattedText := strings.ReplaceAll(string(text), "\n", " ")
 	formattedText = strings.Join(strings.Fields(formattedText), " ")
 
@@ -213,45 +217,45 @@ func downloadVoiceFile(bot *tgbotapi.BotAPI, fileID string) (string, error) {
 	return outFile.Name(), nil
 }
 
+// Function to update formatted text with additional information
 func updateFormattedText(currentText string) string {
-	// Проверка времени последнего запроса
+	// Check the time of the last request
 	if time.Since(lastRequestTime) < cacheDuration {
-		// Использование кэшированного текста
+		// Use cached text
 		return currentText + "\n" + cachedText
 	}
 
-	// URL для запроса текста
+	// URL for obtaining additional text
 	url := "https://raw.githubusercontent.com/matveynator/ChichaTeleBot/main/COPYRIGHT.md"
 
-	// Создание HTTP-клиента с тайм-аутом 2 секунды
+	// Create an HTTP client with a 5-second timeout
 	client := &http.Client{
 		Timeout: 5 * time.Second,
 	}
 
-	// Попытка получения текста с веб-сайта
+	// Attempt to get text from the website
 	response, err := client.Get(url)
 	if err != nil {
-		// В случае ошибки (например, тайм-аута), использование текста "@ChichaTeleBot"
+		// In case of an error (e.g., timeout), use default text "@ChichaTeleBot"
 		copyrightText := "@ChichaTeleBot"
 		return currentText + "\n" + copyrightText
 	}
 	defer response.Body.Close()
 
-	// Чтение текста с веб-сайта
+	// Read text from the website
 	body, err := ioutil.ReadAll(response.Body)
 	if err != nil {
-		// В случае ошибки чтения, использование текста "@ChichaTeleBot"
+		// In case of a reading error, use default text "@ChichaTeleBot"
 		copyrightText := "@ChichaTeleBot"
 		return currentText + "\n" + copyrightText
 	}
 
-	// Использование полученного текста
+	// Use the obtained text
 	copyrightText := string(body)
 
-	// Обновление кэшированных данных
+	// Update cached data
 	cachedText = copyrightText
 	lastRequestTime = time.Now()
 
 	return currentText + "\n" + cachedText
 }
-
