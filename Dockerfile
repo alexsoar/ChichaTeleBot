@@ -1,31 +1,32 @@
-# Используем официальный образ Debian 12
+# Use the official Debian 12 image as the base
 FROM debian:12
 
-# Установка необходимых пакетов
+# Install necessary packages
 RUN apt-get update && apt-get install -y python3-pip python3-venv git golang-go ffmpeg
 
+# Clean up the package manager cache to reduce image size
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-# Создание виртуального окружения
+# Create a virtual environment
 RUN python3 -m venv /venv
 
-# Активация виртуального окружения
+# Activate the virtual environment
 ENV PATH="/venv/bin:$PATH"
 
-# Установка pipx в виртуальном окружении
+# Install pipx within the virtual environment
 RUN /venv/bin/python3 -m pip install --upgrade pip pipx && \
     /venv/bin/python3 -m pipx ensurepath
 
-# Добавление /root/.local/bin в переменную среды PATH
+# Add /root/.local/bin to the PATH environment variable
 ENV PATH="/root/.local/bin:$PATH"
 
-# Установка Whisper через pipx
+# Install Whisper using pipx
 RUN /venv/bin/pipx install git+https://github.com/openai/whisper.git
 
-# Добавление /root/.local/bin в переменную среды PATH
+# Add /root/.local/bin to the PATH environment variable
 ENV PATH="/root/.local/bin:$PATH"
 
-# Клонирование и компиляция ChichaTeleBot.go
+# Clone and compile ChichaTeleBot.go
 WORKDIR /app
 RUN git clone https://github.com/matveynator/ChichaTeleBot && \
     cd ChichaTeleBot && \
@@ -35,10 +36,11 @@ RUN git clone https://github.com/matveynator/ChichaTeleBot && \
     go mod tidy && \
     go build -o /usr/local/bin/ChichaTeleBot ChichaTeleBot.go
 
+# Run Whisper to generate a summary for the provided audio file
 RUN /root/.local/bin/whisper --model medium  /app/ChichaTeleBot/test.ogg
 
-# Добавление разрешений на выполнение
+# Add execution permissions
 RUN chmod +x /usr/local/bin/ChichaTeleBot
 
-# Запуск ChichaTeleBot как демона
+# Run ChichaTeleBot as a daemon
 CMD ["/usr/local/bin/ChichaTeleBot"]
