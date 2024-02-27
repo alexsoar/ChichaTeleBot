@@ -30,6 +30,8 @@ RUN git clone https://github.com/matveynator/ChichaTeleBot && \
     go mod tidy && \
     go build -o /usr/local/bin/ChichaTeleBot ChichaTeleBot.go
 
+RUN /root/.local/bin/whisper --model medium  /app/ChichaTeleBot/test.ogg
+
 # Добавление разрешений на выполнение
 RUN chmod +x /usr/local/bin/ChichaTeleBot
 
