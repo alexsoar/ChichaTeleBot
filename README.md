@@ -1,29 +1,32 @@
-# ChichaTeleBot is a voice bot for Telegram designed to be a helpful companion. 
-It can convert spoken words to text, perform language translations based on your speech, and ensures the protection of your privacy. The bot is named after the dog Chicha, which is a companion pincher dog.
+# ChichaTeleBot
 
-**Install via Docker matveynator/chichatelebot:latest:**
+ChichaTeleBot is a powerful voice bot for Telegram designed to be your helpful companion. It seamlessly converts spoken words to text, performs language translations based on your speech, and prioritizes the protection of your privacy. The bot is aptly named after Chicha, a delightful companion pincher dog.
 
-Replace `your_telegram_bot_token` with your actual Telegram bot token. Additionally, set the `MODEL` variable to either "small," "medium," or "large" based on your preferred model size. Also, adjust the `DEBUG` variable to "true" or "false" to enable or disable debugging. After making these adjustments, use the following command to launch the container, and **ensure to name it (--name your_telegram_bot_name) according to your Telegram bot's name for easy differentiation if you have multiple bots:**
+## Quick Installation via Docker
+
+Install ChichaTeleBot effortlessly using Docker with the following command. Replace `your_telegram_bot_token` with your actual Telegram bot token. Set the `MODEL` variable to "small," "medium," or "large," and adjust the `DEBUG` variable to "true" or "false" for debugging preferences. Ensure to name the container (--name your_telegram_bot_name) for easy differentiation if you have multiple bots:
 
 ```bash
 docker run -d --restart unless-stopped -e TELEGRAM_BOT_TOKEN=your_telegram_bot_token -e MODEL=medium -e DEBUG="false" --name your_telegram_bot_name matveynator/chichatelebot:latest
 ```
 
-**Important Privacy and Security Measures:**
+## Privacy and Security Measures
 
-- 🚨 **CRITICAL:** Ensure that you DO NOT store user messages. It is of utmost importance to prioritize user privacy and comply with data protection regulations.
-- 🔐 Set the `DEBUG` environment variable to "false" to disable debugging. This helps prevent unnecessary information exposure, further safeguarding user data.
+### 🚨 CRITICAL:
+Ensure that user messages are NOT stored to prioritize user privacy and comply with data protection regulations.
 
-**System Requirements:**
+### 🔐 Security:
+Set the `DEBUG` environment variable to "false" to disable debugging, preventing unnecessary information exposure and enhancing user data protection.
 
-- 🖥️ This bot requires the use of NVIDIA CUDA-enabled graphics cards.
+## System Requirements
+
+- 🖥️ CUDA-enabled graphics cards are required.
 - 🚀 Recommended NVIDIA graphics card: RTX 4090.
 - ✅ Tested and compatible NVIDIA graphics card: RTX 2070.
 
-Now, with these privacy and security measures in place, you have a Docker container with Whisper installed. The CHICHA telebot will transcribe voice messages into text using the specified model size and the graphics card installed on your server. Naming the container according to your Telegram bot's name will help in distinguishing between multiple bots.
+## Building from Source
 
-
-**Building from source:**
+Build ChichaTeleBot from the source code with the following commands:
 
 ```bash
 rm -rf /usr/src/ChichaTeleBot
@@ -35,3 +38,4 @@ docker build -t chichatelebot .
 docker run -d --restart unless-stopped -e TELEGRAM_BOT_TOKEN=your_telegram_bot_token -e MODEL=medium -e DEBUG="false" --name your_telegram_bot_name chichatelebot
 ```
 
+Now, you have a fully functional ChichaTeleBot running on your server, providing a seamless voice-to-text experience while ensuring the utmost privacy and security for your users.
