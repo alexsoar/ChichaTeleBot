@@ -19,7 +19,7 @@ RUN distribution=$(. /etc/os-release; echo $ID$VERSION_ID) && \
 RUN apt-get update; apt-get install -y nvidia-container-toolkit nvidia-cuda-toolkit;
 
 # Install necessary packages
-RUN apt-get install -y python3-pip python3-venv git golang-go ffmpeg;
+RUN apt-get install -y python3 python3-pip python3-venv git golang-go ffmpeg;
 
 # Clean up the package manager cache to reduce image size
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* ;
@@ -31,13 +31,12 @@ RUN python3 -m venv /venv
 ENV PATH="/venv/bin:/root/.local/bin:$PATH"
 
 # Install pipx within the virtual environment
-RUN /venv/bin/python3 -m pip install --upgrade pip && \
-    /venv/bin/python3 -m ensurepath
+RUN /venv/bin/pip3 install --upgrade pip 
 
-RUN /venv/bin/pip install torch -f https://download.pytorch.org/whl/torch_stable.html
+RUN /venv/bin/pip3 install torch -f https://download.pytorch.org/whl/torch_stable.html
 
 # Install Whisper using pipx
-RUN /venv/bin/pip install -U openai-whisper
+RUN /venv/bin/pip3 install -U openai-whisper
 
 RUN which whisper
 
