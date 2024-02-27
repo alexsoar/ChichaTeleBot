@@ -1,7 +1,15 @@
 # ChichaTeleBot is a voice bot for Telegram designed to be a helpful companion. 
 It can convert spoken words to text, perform language translations based on your speech, and ensures the protection of your privacy. The bot is named after the dog Chicha, which is a companion pincher dog.
 
-1. **Build and Install:**
+**Install via Docker matveynator/chichatelebot:latest:**
+
+Replace `your_telegram_bot_token` with your actual Telegram bot token. Additionally, set the `MODEL` variable to either "small," "medium," or "large" based on your preferred model size. Also, adjust the `DEBUG` variable to "true" or "false" to enable or disable debugging. After making these adjustments, use the following command to launch the container, and **ensure to name it (--name your_telegram_bot_name) according to your Telegram bot's name for easy differentiation if you have multiple bots:**
+
+```bash
+docker run -d --restart unless-stopped -e TELEGRAM_BOT_TOKEN=your_telegram_bot_token -e MODEL=medium -e DEBUG="false" --name your_telegram_bot_name matveynator/chichatelebot:latest
+```
+
+**Build from source:**
 
 ```bash
 rm -rf /usr/src/ChichaTeleBot
@@ -10,14 +18,7 @@ cd /usr/src
 git clone https://github.com/matveynator/ChichaTeleBot.git
 cd ChichaTeleBot
 docker build -t chichatelebot .
-```
-
-2. **Run:**
-
-Replace `your_telegram_bot_token` with your actual Telegram bot token. Additionally, set the `MODEL` variable to either "small," "medium," or "large" based on your preferred model size. Also, adjust the `DEBUG` variable to "true" or "false" to enable or disable debugging. After making these adjustments, use the following command to launch the container, and **ensure to name it (--name your_telegram_bot_name) according to your Telegram bot's name for easy differentiation if you have multiple bots:**
-
-```bash
-docker run -d --restart unless-stopped -e TELEGRAM_BOT_TOKEN=your_telegram_bot_token -e MODEL=medium -e DEBUG="false" --name your_telegram_bot_name --gpus all chichatelebot
+docker run -d --restart unless-stopped -e TELEGRAM_BOT_TOKEN=your_telegram_bot_token -e MODEL=medium -e DEBUG="false" --name your_telegram_bot_name chichatelebot
 ```
 
 **Important Privacy and Security Measures:**
