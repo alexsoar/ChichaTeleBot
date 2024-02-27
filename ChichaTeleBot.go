@@ -47,6 +47,25 @@ func main() {
 
 	debug := os.Getenv("DEBUG")
 
+	Model := os.Getenv("MODEL")
+
+	if Model == "" {
+		Model = "medium"
+	} else if Model == "small" ||  Model == "Small"  ||  Model == "SMALL" {
+		Model = "small"
+	} else if Model == "medium" ||  Model == "Medium"  ||  Model == "MEDIUM" {
+		Model = "medium"
+	} else if model == "large" ||  Model == "large"  ||  Model == "large" {
+		Model = "large"
+	} else {
+		Model = "medium"
+	}
+	
+	bot, err := tgbotapi.NewBotAPI(token)
+	if err != nil {
+		log.Fatal(err)
+	}
+
 	if debug == "" {
 		bot.Debug = false
 	} else if debug == "false" ||  debug == "False"  ||  debug == "FALSE" {
@@ -55,25 +74,6 @@ func main() {
 		bot.Debug = true
 	} else {
 		bot.Debug = false
-	}
-
-	model := os.Getenv("MODEL")
-
-	if model == "" {
-		model = medium
-	} else if model == "small" ||  model == "Small"  ||  model == "SMALL" {
-		model = small
-	} else if model == "medium" ||  model == "Medium"  ||  model == "MEDIUM" {
-		model = medium
-	} else if model == "large" ||  model == "large"  ||  model == "large" {
-		model = large
-	} else {
-		model = medium
-	}
-	
-	bot, err := tgbotapi.NewBotAPI(token)
-	if err != nil {
-		log.Fatal(err)
 	}
 
 	log.Printf("Authorized on account %s", bot.Self.UserName)
@@ -154,7 +154,7 @@ func transcribeWithWhisper(audioFilePath string) (string, error) {
 	cmd := exec.Command(
 		"whisper",
 		audioFilePath,
-		"--model", model,
+		"--model", Model,
 		"--task", "transcribe",
 		"--output_format", "txt",
 		"--max_line_width", "0",
