@@ -22,6 +22,22 @@ var (
 )
 
 func main() {
+
+
+	// Получаем текущее значение переменной PATH
+	currentPath := os.Getenv("PATH")
+
+	// Добавляем новый путь к текущему значению переменной PATH
+	newPath := "/root/.local/bin/"
+	newPathValue := fmt.Sprintf("%s:%s", newPath, currentPath)
+
+	// Устанавливаем новое значение переменной PATH
+	err := os.Setenv("PATH", newPathValue)
+	if err != nil {
+		fmt.Println("Ошибка при установке переменной PATH:", err)
+		return
+	}
+
 	godotenv.Load()
 
 	token := os.Getenv("TELEGRAM_BOT_TOKEN")
