@@ -33,12 +33,8 @@ ENV PATH="/venv/bin:/root/.local/bin:$PATH"
 # Install pipx within the virtual environment
 RUN /venv/bin/pip3 install --upgrade pip 
 
-RUN /venv/bin/pip3 install torch -f https://download.pytorch.org/whl/torch_stable.html
-
 # Install Whisper using pipx
 RUN /venv/bin/pip3 install -U openai-whisper
-
-RUN which whisper
 
 # Clone and compile ChichaTeleBot.go
 WORKDIR /app
