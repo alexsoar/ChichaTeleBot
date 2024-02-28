@@ -8,9 +8,17 @@ Please note: **CHICHA NEVER STORES YOU TEXT OR VOICE MESSAGES.**
 ## Quick Installation via Docker:
 Install ChichaTeleBot effortlessly using Docker with the following command. Replace `your_telegram_bot_token` with your actual Telegram bot token. Set the `MODEL` variable to "small," "medium," or "large," and adjust the `DEBUG` variable to "true" or "false" for debugging preferences. Ensure to name the container (--name your_telegram_bot_name) for easy differentiation if you have multiple bots:
 
+## WITH NVIDIA CUDA GPU (Recommended): 
 ```bash
 
-docker run -d --restart unless-stopped  -e DEBUG="false" -e MODEL="medium" -e TELEGRAM_BOT_TOKEN="your_telegram_bot_token" --mount type=tmpfs,destination=/root/.cache/whisper --gpus all --name your_telegram_bot_name matveynator/chichatelebot:latest
+docker run -d --restart unless-stopped  -e DEBUG="false" -e MODEL="medium" -e TELEGRAM_BOT_TOKEN="your_telegram_bot_token" --gpus all --name your_telegram_bot_name matveynator/chichatelebot:latest
+
+```
+
+## WITHOUT GPU (slow):
+```bash
+
+docker run -d --restart unless-stopped  -e DEBUG="false" -e MODEL="medium" -e TELEGRAM_BOT_TOKEN="your_telegram_bot_token" --name your_telegram_bot_name matveynator/chichatelebot:latest
 
 ```
 
@@ -37,7 +45,7 @@ cd ChichaTeleBot
 docker build -t chichatelebot .
 ```
 ```
-docker run -d --restart unless-stopped -e TELEGRAM_BOT_TOKEN="your_telegram_bot_token" --mount type=tmpfs,destination=/root/.cache/whisper -e MODEL="medium" -e DEBUG="false" --gpus all --name your_telegram_bot_name chichatelebot
+docker run -d --restart unless-stopped -e TELEGRAM_BOT_TOKEN="your_telegram_bot_token" -e MODEL="medium" -e DEBUG="false" --gpus all --name your_telegram_bot_name chichatelebot
 ```
 
 Now, you have a fully functional ChichaTeleBot running on your server, providing a seamless voice-to-text experience while ensuring the utmost privacy and security for your users.
