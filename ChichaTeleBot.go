@@ -83,7 +83,7 @@ func main() {
 	log.Printf("Authorized on account %s", bot.Self.UserName)
 
 	// Move "medium" model to memory partition to speed up starting of the bot transcription routines:
-	if err := pushModelToMemory()
+	err = pushModelToMemory()
 	if err != nil {
 	   log.Println(err)
 	}
