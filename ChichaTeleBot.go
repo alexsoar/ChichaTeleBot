@@ -82,15 +82,6 @@ func main() {
 
 	log.Printf("Authorized on account %s", bot.Self.UserName)
 
-	// Move "medium" model to memory partition to speed up starting of the bot transcription routines:
-	sourcePath := "/root/models/medium.pt"
-	destinationPath := "/root/.cache/whisper/medium.pt"
-
-	err = copyFile(sourcePath, destinationPath)
-	if err != nil {
-		fmt.Println("Error:", err)
-	}
-
 	// Set up updates channel and wait group for handling voice messages concurrently
 	u := tgbotapi.NewUpdate(0)
 	u.Timeout = 60
@@ -268,26 +259,3 @@ func updateFormattedText(currentText string) string {
 
 	return currentText + "\n" + cachedText
 }
-
-func copyFile(sourcePath, destinationPath string) error {
-	sourceFile, err := os.Open(sourcePath)
-	if err != nil {
-		return err
-	}
-	defer sourceFile.Close()
-
-	destinationFile, err := os.Create(destinationPath)
-	if err != nil {
-		return err
-	}
-	defer destinationFile.Close()
-
-	_, err = io.Copy(destinationFile, sourceFile)
-	if err != nil {
-		return err
-	}
-
-	fmt.Printf("File copied from %s to %s\n", sourcePath, destinationPath)
-	return nil
-}
-
