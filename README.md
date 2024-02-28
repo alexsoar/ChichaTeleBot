@@ -37,7 +37,7 @@ cd ChichaTeleBot
 docker build -t chichatelebot .
 ```
 ```
-docker run -d --restart unless-stopped -e TELEGRAM_BOT_TOKEN=your_telegram_bot_token -e MODEL=medium -e DEBUG="false" --gpus all --name your_telegram_bot_name chichatelebot
+docker run -d --restart unless-stopped -e TELEGRAM_BOT_TOKEN="your_telegram_bot_token" --mount type=tmpfs,destination=/root/.cache/whisper -e MODEL="medium" -e DEBUG="false" --gpus all --name your_telegram_bot_name chichatelebot
 ```
 
 Now, you have a fully functional ChichaTeleBot running on your server, providing a seamless voice-to-text experience while ensuring the utmost privacy and security for your users.
