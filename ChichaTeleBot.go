@@ -33,7 +33,7 @@ func main() {
 	currentPath := os.Getenv("PATH")
 
 	// Add a new path to the current PATH value
-	newPath := "/root/.local/bin/"
+	newPath := "/venv/bin"
 	newPathValue := fmt.Sprintf("%s:%s", newPath, currentPath)
 
 	// Set the new value for the PATH variable
@@ -81,6 +81,12 @@ func main() {
 	}
 
 	log.Printf("Authorized on account %s", bot.Self.UserName)
+
+	// Move "medium" model to memory partition to speed up starting of the bot transcription routines:
+	if err := pushModelToMemory()
+	if err != nil {
+	   log.Println(err)
+	}
 
 	// Set up updates channel and wait group for handling voice messages concurrently
 	u := tgbotapi.NewUpdate(0)
@@ -259,3 +265,13 @@ func updateFormattedText(currentText string) string {
 
 	return currentText + "\n" + cachedText
 }
+
+func pushModelToMemory() error {
+	cmd := exec.Command("rsync", "-avP", "/root/models/*", "/root/.cache/whisper/")
+	cmd.Stdout, cmd.Stderr = os.Stdout, os.Stderr
+	if err := cmd.Run(); err != nil {
+		return fmt.Errorf("Error executing rsync: %v", err)
+	}
+	return nil
+}
+
