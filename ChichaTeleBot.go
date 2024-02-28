@@ -86,7 +86,7 @@ func main() {
 	sourcePath := "/root/models/medium.pt"
 	destinationPath := "/root/.cache/whisper/medium.pt"
 
-	err := copyFile(sourcePath, destinationPath)
+	err = copyFile(sourcePath, destinationPath)
 	if err != nil {
 		fmt.Println("Error:", err)
 	}
