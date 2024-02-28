@@ -8,8 +8,8 @@ ENV NVIDIA_DRIVER_CAPABILITIES compute,utility
 # Place where models will be stored.
 RUN mkdir -p /root/.cache/whisper
 
-# tmpfs (8G)
-CMD ["mount", "-t", "tmpfs", "-o", "size=8G", "tmpfs", "/root/.cache/whisper"]
+# tmpfs 
+CMD ["mount", "-t", "tmpfs", "tmpfs", "/root/.cache/whisper"]
 
 # Install necessary dependencies
 RUN apt-get update && apt-get -y install curl gnupg lsb-release
