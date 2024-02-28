@@ -58,7 +58,5 @@ RUN whisper --model medium  /app/ChichaTeleBot/test.ogg --model_dir /root/models
 # Add execution permissions
 RUN chmod +x /usr/local/bin/ChichaTeleBot
 
-RUN rsync -avP /root/models/* /root/.cache/whisper/
-
 # Run ChichaTeleBot as a daemon
 CMD ["/usr/local/bin/ChichaTeleBot"]
