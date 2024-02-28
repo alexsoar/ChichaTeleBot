@@ -5,9 +5,6 @@ FROM ubuntu:22.04
 ENV NVIDIA_VISIBLE_DEVICES all
 ENV NVIDIA_DRIVER_CAPABILITIES compute,utility
 
-# Place where models will be stored.
-RUN mkdir -p /root/.cache/whisper
-
 # Install necessary dependencies
 RUN apt-get update && apt-get -y install curl gnupg lsb-release
 
@@ -50,7 +47,7 @@ RUN git clone https://github.com/matveynator/ChichaTeleBot && \
     go build -o /usr/local/bin/ChichaTeleBot ChichaTeleBot.go
 
 # Run Whisper to generate a summary for the provided audio file
-RUN whisper --model medium  /app/ChichaTeleBot/test.ogg --model_dir /root/models
+RUN whisper --model medium  /app/ChichaTeleBot/test.ogg
 
 # Add execution permissions
 RUN chmod +x /usr/local/bin/ChichaTeleBot
