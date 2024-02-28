@@ -25,7 +25,7 @@ RUN distribution=$(. /etc/os-release; echo $ID$VERSION_ID) && \
 RUN apt-get update; apt-get install -y nvidia-container-toolkit nvidia-cuda-toolkit nvidia-container-runtime;
 
 # Install necessary packages
-RUN apt-get install -y python3 python3-pip python3-venv git golang-go ffmpeg;
+RUN apt-get install -y python3 python3-pip python3-venv git golang-go ffmpeg rsync;
 
 # Clean up the package manager cache to reduce image size
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* ;
@@ -53,10 +53,12 @@ RUN git clone https://github.com/matveynator/ChichaTeleBot && \
     go build -o /usr/local/bin/ChichaTeleBot ChichaTeleBot.go
 
 # Run Whisper to generate a summary for the provided audio file
-RUN whisper --model medium  /app/ChichaTeleBot/test.ogg
+RUN whisper --model medium  /app/ChichaTeleBot/test.ogg --model_dir /root/models
 
 # Add execution permissions
 RUN chmod +x /usr/local/bin/ChichaTeleBot
+
+RUN rsync -avP /root/models/* /root/.cache/whisper/
 
 # Run ChichaTeleBot as a daemon
 CMD ["/usr/local/bin/ChichaTeleBot"]
