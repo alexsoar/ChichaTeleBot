@@ -22,7 +22,7 @@ RUN distribution=$(. /etc/os-release; echo $ID$VERSION_ID) && \
 RUN apt-get update; apt-get install -y nvidia-container-toolkit nvidia-cuda-toolkit nvidia-container-runtime;
 
 # Install necessary packages
-RUN apt-get install -y python3 python3-pip python3-venv git golang-go ffmpeg rsync;
+RUN apt-get install -y python3 python3-pip python3-venv git golang-go ffmpeg vim;
 
 # Clean up the package manager cache to reduce image size
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* ;
